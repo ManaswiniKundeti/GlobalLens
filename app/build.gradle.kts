@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.dagger.hilt.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -18,6 +20,12 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments["dagger.hilt.android.internal.disableAndroidSuperclassValidation"] = "true"
+            }
+        }
     }
 
     buildTypes {
@@ -33,6 +41,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    flavorDimensions += listOf("language", "ui")
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -59,6 +68,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -66,4 +76,38 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // newly added
+    // Retrofit for networking
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    // Room for local database
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
+    implementation(libs.room.ktx)
+    // Coil for image loading in Compose
+    implementation(libs.coil.compose)
+    // Coroutines and Flows
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.android)
+    // Lifecycle and ViewModel
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.livedata.ktx)
+    implementation(libs.lifecycle.runtime.ktx)
+    // RecyclerView
+    implementation(libs.recyclerview)
+    // Hilt for Dependency Injection
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    // Hilt for ViewModels in Compose
+    implementation(libs.hilt.navigation.compose)
+
+    // Hilt for testing
+    androidTestImplementation(libs.hilt.android.testing)
+    kaptAndroidTest(libs.hilt.compiler)
+
+}
+
+kapt {
+    correctErrorTypes = true
 }
