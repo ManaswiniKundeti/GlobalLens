@@ -77,28 +77,38 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    // newly added
+    // newly added dependencies
     // Retrofit for networking
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
+
     // Room for local database
     implementation(libs.room.runtime)
     kapt(libs.room.compiler)
     implementation(libs.room.ktx)
+
     // Coil for image loading in Compose
     implementation(libs.coil.compose)
+
+    // compose runtime for viewmodel observe as state
+    implementation(libs.compose.runtime.livedata)
+
     // Coroutines and Flows
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
+
     // Lifecycle and ViewModel
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.runtime.ktx)
+
     // RecyclerView
     implementation(libs.recyclerview)
+
     // Hilt for Dependency Injection
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
     // Hilt for ViewModels in Compose
     implementation(libs.hilt.navigation.compose)
 
