@@ -1,7 +1,5 @@
 package com.example.globallens.viewmodel
 
-import android.graphics.Region
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,7 +22,6 @@ class RestCountriesViewModel @Inject constructor(
         viewModelScope.launch {
            val countriesList = repository.getCountriesByRegion(region)
             if (countriesList.isNotEmpty()) {
-//                Log.d("TAG123", countriesList.toString())
               _countryLiveData.value = countriesList
             }
         }

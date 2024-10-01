@@ -1,6 +1,5 @@
 package com.example.globallens.repository
 
-import android.graphics.Region
 import android.util.Log
 import com.example.globallens.data.Country
 import com.example.globallens.network.RestCountriesService
@@ -11,7 +10,6 @@ class RestCountriesRepository @Inject constructor(
 ) {
 
     suspend fun getCountriesByRegion(region: String): List<Country> {
-        Log.d("TAG123", region)
         return service.getCountryByRegion(region)
     }
 }

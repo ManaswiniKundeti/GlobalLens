@@ -116,6 +116,14 @@ dependencies {
     androidTestImplementation(libs.hilt.android.testing)
     kaptAndroidTest(libs.hilt.compiler)
 
+    // for unit testing
+    testImplementation("org.mockito:mockito-core:3.11.2")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0'")
+
+    // For Coroutines Testing
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+    // For Android Logging (Optional, mock log)
+    testImplementation("androidx.test:core:1.4.0")
 }
 
 kapt {
