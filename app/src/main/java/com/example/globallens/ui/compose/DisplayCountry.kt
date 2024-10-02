@@ -10,10 +10,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.unit.dp
 import com.example.globallens.data.Country
 import com.example.globallens.viewmodel.RestCountriesViewModel
@@ -24,13 +27,14 @@ fun DisplayCountry(viewModel: RestCountriesViewModel) {
 
     val countriesList: List<Country> = viewModel.countryLiveData.observeAsState().value ?: emptyList()
 
+    val countriesFlow: List<Country> by viewModel.countriesFlow.collectAsState()
     Column {
         Box(modifier = Modifier.padding(10.dp)) {
-            Text("Countries in Asia".capitalize(Locale.ROOT), style = MaterialTheme.typography.headlineLarge, color = Color.Red)
+            Text("Countries in Asia".capitalize(Locale.US), style = MaterialTheme.typography.headlineLarge, color = Color.Red)
         }
         Spacer(modifier = Modifier.height(4.dp))
         LazyColumn {
-            items(countriesList) { country ->
+            items(countriesFlow) { country ->
                 CountryItem(country)
             }
         }
