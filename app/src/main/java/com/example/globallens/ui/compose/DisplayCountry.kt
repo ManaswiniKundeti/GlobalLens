@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,10 +19,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.globallens.data.Country
 import com.example.globallens.viewmodel.RestCountriesViewModel
 import java.util.Locale
@@ -63,6 +67,18 @@ fun CountryItem(country: Country, selectCountry: (String) -> Unit) {
             country.currencies.forEach {
                 Text(text = it.value.name)
             }
+            Spacer(modifier = Modifier.width(5.dp))
+            Text(text = " ---> ")
+            AsyncImage(
+                model = country.flags.png,
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(5.dp))
+                    .width(20.dp)
+                    .height(20.dp),
+                onError = { }
+            )
 
         }
     }
