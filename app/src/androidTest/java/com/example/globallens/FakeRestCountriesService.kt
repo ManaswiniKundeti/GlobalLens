@@ -6,40 +6,10 @@ import com.example.globallens.data.CountryFlag
 import com.example.globallens.data.CountryName
 import com.example.globallens.data.NativeName
 import com.example.globallens.network.RestCountriesService
-import com.example.globallens.repository.RestCountriesRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.mockito.Mockito
-import org.mockito.Mockito.`when`
-import org.junit.Assert.assertEquals
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
-import org.mockito.Mockito.verify
 
-@RunWith(JUnit4::class)
-class RestCountriesRepositoryTest {
-
-    private lateinit var repository: RestCountriesRepository
-
-    private lateinit var service: RestCountriesService
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val testDispatcher  = UnconfinedTestDispatcher()
-
-    @Before
-    fun setup() {
-        service = Mockito.mock(RestCountriesService::class.java)
-        repository = RestCountriesRepository(service)
-    }
-
-    @Test
-    fun `getCountriesByRegion returns list of countries when service is successful`() = runTest(testDispatcher) {
-        val region = "europe"
-// Mock data for a list of countries
-        val countriesList = listOf(
+class FakeRestCountriesService: RestCountriesService {
+    override suspend fun getCountryByRegion(region: String): List<Country> {
+        return listOf(
             Country(
                 name = CountryName(
                     common = "Germany",
@@ -87,35 +57,5 @@ class RestCountriesRepositoryTest {
                 )
             )
         )
-
-        // mock call
-        `when`(service.getCountryByRegion(region)).thenReturn(countriesList)
-
-        // action call
-       val result =  repository.getCountriesByRegion(region)
-
-        // assert
-        assertEquals(countriesList, result)
-        verify(service).getCountryByRegion(region)
-
-
     }
-
-    @Test
-    fun `getCountriesByRegion returns emptyList when service returns empty list`() = runTest(testDispatcher) {
-        val region = "europe"
-        val countriesList = emptyList<Country>()
-
-        // mock service call to return empty list
-        `when`(service.getCountryByRegion(region)).thenReturn(countriesList)
-
-        // When call
-        val result = repository.getCountriesByRegion(region)
-
-        //then assert
-        assertEquals(countriesList, result)
-        verify(service).getCountryByRegion(region)
-
-    }
-
 }

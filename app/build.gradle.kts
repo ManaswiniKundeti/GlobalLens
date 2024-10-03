@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.dagger.hilt.android)
     id("kotlin-kapt")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -16,7 +17,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.globallens.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -100,7 +101,6 @@ dependencies {
     // Lifecycle and ViewModel
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.livedata.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
 
     // RecyclerView
     implementation(libs.recyclerview)
@@ -118,10 +118,12 @@ dependencies {
 
     // for unit testing
     testImplementation("org.mockito:mockito-core:3.11.2")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0'")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
 
     // For Coroutines Testing
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+    testImplementation(libs.kotlin.coroutines.test)
+    testImplementation (libs.core.testing)
     // For Android Logging (Optional, mock log)
     testImplementation("androidx.test:core:1.4.0")
 }

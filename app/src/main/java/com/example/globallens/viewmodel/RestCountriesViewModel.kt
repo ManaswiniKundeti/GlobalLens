@@ -28,7 +28,6 @@ class RestCountriesViewModel @Inject constructor(
         viewModelScope.launch {
            val countriesList = repository.getCountriesByRegion(region)
             if (countriesList.isNotEmpty()) {
-//              _countryLiveData.value = countriesList
                 _countriesFlow.value = countriesList
             }
         }
