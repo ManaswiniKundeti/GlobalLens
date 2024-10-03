@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.globallens.data.Country
+import com.example.globallens.jsonSample.data.JsonCountry
 import com.example.globallens.repository.RestCountriesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +24,9 @@ class RestCountriesViewModel @Inject constructor(
     private val _countriesFlow = MutableStateFlow<List<Country>>(emptyList())
     val countriesFlow = _countriesFlow.asStateFlow()
 
+    private val _jsonCountriesFlow = MutableStateFlow<List<JsonCountry>>(emptyList())
+    val jsonCountriesFlow = _jsonCountriesFlow.asStateFlow()
+
 
     fun getCountriesByRegion(region: String) {
         viewModelScope.launch {
@@ -30,6 +34,12 @@ class RestCountriesViewModel @Inject constructor(
             if (countriesList.isNotEmpty()) {
                 _countriesFlow.value = countriesList
             }
+        }
+    }
+
+    suspend fun getJsonCountries() {
+        viewModelScope.launch {
+            _jsonCountriesFlow.value = repository.getCountries()
         }
     }
 }

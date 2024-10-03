@@ -7,6 +7,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import com.example.globallens.ui.compose.DisplayCountry
+import com.example.globallens.ui.compose.MainScreen
 import com.example.globallens.viewmodel.RestCountriesViewModel
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -32,7 +33,8 @@ class DisplayCountryTest {
         hiltTestRule.inject()
 
         composeTestRule.activity.setContent {
-            DisplayCountry(composeTestRule.activity.viewModels<RestCountriesViewModel>().value)
+            MainScreen()
+//            DisplayCountry(composeTestRule.activity.viewModels<RestCountriesViewModel>().value)
         }
     }
 

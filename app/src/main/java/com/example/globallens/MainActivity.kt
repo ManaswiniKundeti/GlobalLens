@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.globallens.ui.compose.DisplayCountry
+import com.example.globallens.ui.compose.MainScreen
 import com.example.globallens.ui.theme.GlobalLensTheme
 import com.example.globallens.viewmodel.RestCountriesViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
         viewModel.getCountriesByRegion("asia")
         setContent {
             GlobalLensTheme {
-                DisplayCountry(hiltViewModel())
+                MainScreen()
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.example.globallens.ui.compose
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,7 +27,10 @@ import com.example.globallens.viewmodel.RestCountriesViewModel
 import java.util.Locale
 
 @Composable
-fun DisplayCountry(viewModel: RestCountriesViewModel) {
+fun DisplayCountry(
+    viewModel: RestCountriesViewModel,
+    selectCountry: (String) -> Unit
+) {
 
     val countriesList: List<Country> = viewModel.countryLiveData.observeAsState().value ?: emptyList()
 
@@ -42,7 +46,7 @@ fun DisplayCountry(viewModel: RestCountriesViewModel) {
         Spacer(modifier = Modifier.height(4.dp))
         LazyColumn(modifier = Modifier.testTag("countryList")) {
             items(countriesFlow) { country ->
-                CountryItem(country)
+                CountryItem(country, selectCountry)
             }
         }
     }
@@ -50,8 +54,8 @@ fun DisplayCountry(viewModel: RestCountriesViewModel) {
 }
 
 @Composable
-fun CountryItem(country: Country) {
-    Box(modifier = Modifier.padding(5.dp)) {
+fun CountryItem(country: Country, selectCountry: (String) -> Unit) {
+    Box(modifier = Modifier.padding(5.dp).clickable { selectCountry(country.name.common)  }) {
         Row {
             Text(text = country.name.common.uppercase(Locale.US))
             Spacer(modifier = Modifier.width(5.dp))
