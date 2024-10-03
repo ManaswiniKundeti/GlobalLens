@@ -5,6 +5,7 @@ import com.example.globallens.data.CountryCurrency
 import com.example.globallens.data.CountryFlag
 import com.example.globallens.data.CountryName
 import com.example.globallens.data.NativeName
+import com.example.globallens.jsonSample.service.JsonCountryService
 import com.example.globallens.network.RestCountriesService
 import com.example.globallens.repository.RestCountriesRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,6 +15,7 @@ import org.junit.Before
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -25,6 +27,7 @@ class RestCountriesRepositoryTest {
     private lateinit var repository: RestCountriesRepository
 
     private lateinit var service: RestCountriesService
+    private lateinit var jsonService: JsonCountryService
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val testDispatcher  = UnconfinedTestDispatcher()
@@ -32,13 +35,15 @@ class RestCountriesRepositoryTest {
     @Before
     fun setup() {
         service = Mockito.mock(RestCountriesService::class.java)
-        repository = RestCountriesRepository(service)
+        jsonService = Mockito.mock(JsonCountryService::class.java)
+        repository = RestCountriesRepository(service,jsonService )
     }
 
     @Test
     fun `getCountriesByRegion returns list of countries when service is successful`() = runTest(testDispatcher) {
         val region = "europe"
-// Mock data for a list of countries
+
+        // Mock data for a list of countries
         val countriesList = listOf(
             Country(
                 name = CountryName(
@@ -92,10 +97,10 @@ class RestCountriesRepositoryTest {
         `when`(service.getCountryByRegion(region)).thenReturn(countriesList)
 
         // action call
-       val result =  repository.getCountriesByRegion(region)
-
+        val result =  repository.getCountriesByRegion(region)
         // assert
         assertEquals(countriesList, result)
+
         verify(service).getCountryByRegion(region)
 
 
@@ -110,10 +115,17 @@ class RestCountriesRepositoryTest {
         `when`(service.getCountryByRegion(region)).thenReturn(countriesList)
 
         // When call
-        val result = repository.getCountriesByRegion(region)
+        // Assert that the exception is thrown with the expected message
+        val exception = assertThrows(Exception::class.java) {
+            // When call to repository
+            kotlinx.coroutines.test.runTest {
+                repository.getCountriesByRegion(region)
+            }
+        }
+        
+        // Verify the exception message
+        assertEquals("Failed to fetch countries. Please try again later.", exception.message)
 
-        //then assert
-        assertEquals(countriesList, result)
         verify(service).getCountryByRegion(region)
 
     }
